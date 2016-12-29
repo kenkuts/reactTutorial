@@ -11,6 +11,13 @@
   <body>
     <div id="app"></div>
     <div id="root"></div>
+    <div id="new"></div>
+    <br><br>
+    <div id="component"></div>
+    <br>
+    <div id="comp1"></div>
+    <br>
+    <div id="comp2"></div>
 
     <script type="text/babel">
 
@@ -26,6 +33,71 @@
         React.DOM.em(null, "This is an example"), " of a nested"), " component"),
         document.getElementById('root')
       );
+
+      ReactDOM.render(
+        React.DOM.p(
+        {
+          style: {
+            color: "blue",
+            //use Javascript API when editing CSS properties like font-size, font-family,etc.
+            fontSize: "20px", 
+          } 
+        }, "I am editing the CCS properties of this paragraph!"),
+        document.getElementById('new')
+        );
+
+
+      var Component = React.createClass({
+      //the only thing you must do is implement the render() method and this method must
+      //return a React componenet. 
+        render: function() { 
+          return React.DOM.b(null, "This is how you create a component");
+        }
+        });
+
+      var ComponentFactory = React.createFactory(Component);
+      ReactDOM.render(
+        ComponentFactory(),
+        document.getElementById('component')
+      );
+
+      var comp = React.createClass({
+        //Components can take properties and render or behave differently
+        render: function() { 
+          return React.DOM.b(null, "This is how you create a component with a " + this.props.property);
+        }
+        });
+
+      ReactDOM.render(
+        React.createElement(comp, {
+          property: "property",
+        }),
+        document.getElementById('comp1')
+      );
+
+        var comp2 = React.createClass({
+        //You can add a propTypes in your componenets to get input validation
+        //two main goals for this:
+        //1 is to declare upfront what your component accepts
+        //2 react does validation of property values at runtime so you can write your
+        //render function without worring about the data youre recieving
+
+        propTypes: {
+          property: React.PropTypes.string.isRequired, //this means that a string value is required for our prop types
+        },
+        render: function() { 
+          return React.DOM.b( { style: { color: "green", }}, "This is how you create a component with a " + this.props.property);
+        }
+        });
+
+      ReactDOM.render(
+        React.createElement(comp2, {
+          property: "Property Type",
+        }),
+        document.getElementById("comp2")
+      );
+
+
     </script>
   </body>
 </html>
