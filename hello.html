@@ -12,12 +12,16 @@
     <div id="app"></div>
     <div id="root"></div>
     <div id="new"></div>
-    <br><br>
+    <br>
     <div id="component"></div>
     <br>
     <div id="comp1"></div>
     <br>
     <div id="comp2"></div>
+    <br>
+    <div id="comp3"></div>
+    <br>
+    <div id="comp4"></div>
 
     <script type="text/babel">
 
@@ -97,7 +101,75 @@
         document.getElementById("comp2")
       );
 
+      var defaultPropValues = React.createClass({
+        //this is the default property value if our components can also not accept
+        //property values
+        propTypes: {
+          firstName: React.PropTypes.string.isRequired,
+          middleName: React.PropTypes.string,
+          lastName: React.PropTypes.string.isRequired,
+          address: React.PropTypes.string,
+        },
 
+        //this is where we will put our default property value. 
+        //we are going to put a default value for middlename and address
+        //because we didn't specifiy that is 'isRequired' in our propType.
+        getDefaultProps: function(){
+          return {
+            middleName: " ",
+            address: "n/a",
+        }
+
+        },
+
+        render: function() {
+          return React.DOM.b(null, this.props.firstName + " " +
+                                   this.props.middleName + " " +
+                                   this.props.lastName + " - " +
+                                   this.props.address);
+        }
+      });
+
+      ReactDOM.render(
+        React.createElement(defaultPropValues, {
+          firstName: "John",
+          //middleName: "R.",
+          lastName: "Doe",
+          address: "Queens, New York",
+
+        }),
+        document.getElementById('comp3')
+        );
+
+
+      var textCounter = React.createClass({
+        //We are creating a text area counter where it will count how many
+        //letters we have on our text box
+        propTypes: {
+          name: React.PropTypes.string,
+        },
+
+        getDefaultProps: function() {
+          return {
+          name: " ",
+          }
+        },
+
+        render: function() {
+          return React.DOM.div(null,
+            React.DOM.textarea({ //textarea component
+              defaultValue: this.props.name,}), //reating a default value in our text area
+            React.DOM.h3({ style: { //create our number counter with a little style
+              color: "pink",
+              fontSize: "25px",}
+            }, this.props.name.length));//get the length to our name property and close div componenet
+      } //render functio closing brace
+      }); //closed the textCounter class
+
+        ReactDOM.render(
+          React.createElement(textCounter, {
+            name: "Excelsior"}),
+          document.getElementById('comp4'));
     </script>
   </body>
 </html>
