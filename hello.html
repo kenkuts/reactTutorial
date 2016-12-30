@@ -149,20 +149,35 @@
           name: React.PropTypes.string,
         },
 
-        getDefaultProps: function() {
+        //the code below changes our paalication from using stateless components into
+        //stalefu ones. 
+
+        //this method basically just initializes whats in our textarea component.
+        //it will have the same value as the 'name' property.
+        getInitialState: function() {
           return {
-          name: " ",
+            name: this.props.name,
           }
+        },
+
+        //Now we will add an event listener called _textChange that takes and event 
+        //ev object and reaches into it to get the text of the textarea input.
+        _textChange: function(ev){
+          this.setState({
+            name: ev.target.value,
+          });
         },
 
         render: function() {
           return React.DOM.div(null,
             React.DOM.textarea({ //textarea component
-              defaultValue: this.props.name,}), //reating a default value in our text area
+              value: this.state.name,
+              onChange: this._textChange,
+            }), //reating a default value in our text area
             React.DOM.h3({ style: { //create our number counter with a little style
               color: "pink",
               fontSize: "25px",}
-            }, this.props.name.length));//get the length to our name property and close div componenet
+            }, this.state.name.length));//get the length to our name property and close div componenet
       } //render functio closing brace
       }); //closed the textCounter class
 
@@ -170,6 +185,8 @@
           React.createElement(textCounter, {
             name: "Excelsior"}),
           document.getElementById('comp4'));
+
+
     </script>
   </body>
 </html>
