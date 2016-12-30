@@ -145,6 +145,26 @@
       var textCounter = React.createClass({
         //We are creating a text area counter where it will count how many
         //letters we have on our text box
+
+        //lets add lifecycles to see how they work
+        _log: function(methodName, args) {
+          console.log(methodName, args);
+        },
+
+        componentWillUpdate: function(){this._log('componentWillUpdate', arguments)},
+        componentDidUpdate: function(){this._log('componentDidUpdate', arguments)},
+        componentWillMount: function(){this._log('componentWillMount', arguments)},
+        componentDidMount: function(){this._log('componentDidMount', arguments)},
+        componentWillUnmount: function(){this._log('componentWillUnmount', arguments)},
+
+
+        //adding in changing properties
+        componentWillReceiveProps: function(newProps) {
+          this.setState({
+            name: newProps.defaultValue,
+          });
+        },
+
         propTypes: {
           name: React.PropTypes.string,
         },
@@ -157,7 +177,7 @@
         getInitialState: function() {
           return {
             name: this.props.name,
-          }
+          };
         },
 
         //Now we will add an event listener called _textChange that takes and event 
@@ -177,13 +197,14 @@
             React.DOM.h3({ style: { //create our number counter with a little style
               color: "pink",
               fontSize: "25px",}
-            }, this.state.name.length));//get the length to our name property and close div componenet
-      } //render functio closing brace
+            }, this.state.name.length,));//get the length to our name property and close div componenet
+      } //render function closing brace
       }); //closed the textCounter class
 
         ReactDOM.render(
           React.createElement(textCounter, {
-            name: "Excelsior"}),
+            name: "Excelsior",
+          }),
           document.getElementById('comp4'));
 
 
